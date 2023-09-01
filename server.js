@@ -48,10 +48,23 @@ function panoramicSessionStreamHandler(request, response, next) {
     });
       
     subscriber.on("message", async function(channel, data) {
-      message =  data.toString();
+      const message = JSON.parse(data)
       console.log("----------------------------------------------------")
       console.log("SSE")
       console.log(message)
+
+      let testMessage = {
+        state: "streaming",
+        focusTarget: message["focusTarget"],
+        focusState: message["focusState"],
+        focusAlias: message["focusAlias"]
+      };
+  
+      console.log("testMessage")
+      console.log(testMessage)
+      const testData = `data: ${JSON.stringify(testMessage)}\n\n`; // Must have the 2 \n
+     
+      response.write(testData);
       console.log("----------------------------------------------------")
     });
 
